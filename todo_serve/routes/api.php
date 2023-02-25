@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;
 
 
 /*
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resources([
     'tasks' => TaskController::class,
     'carts' => CartController::class,
+    'products' => ProductController::class,
     // 'tasks.title' => [TaskController::class, 'updateTitle'],
 ]);
 
