@@ -1,15 +1,16 @@
 <script setup>
-import { useCart } from "src/composables/useCart";
+import { useCartStore } from "src/stores/cartStore";
+import { computed } from "vue";
+const storeCart = useCartStore();
 
-const { products, addToCart } = useCart();
+const cartList = computed(() => storeCart.getCart);
 </script>
-
 <template>
-  <q-page class="flex flex-center">
-    <q-card class="product-card">
+  <q-page class="">
+    <q-card>
       <q-list bordered padding>
-        <q-item-label header>Productos</q-item-label>
-        <q-item v-for="product in products">
+        <q-item-label header>Carro de Compras</q-item-label>
+        <q-item v-for="product in cartList">
           <q-item-section top avatar>
             <q-avatar
               color="primary"
@@ -25,15 +26,7 @@ const { products, addToCart } = useCart();
           </q-item-section>
 
           <q-item-section side top>
-            <q-btn
-              dense
-              color="blue"
-              round
-              icon="add"
-              class="q-ml-md"
-              @click="addToCart(product)"
-            >
-            </q-btn>
+            <q-btn dense color="blue" round icon="add" class="q-ml-md"> </q-btn>
           </q-item-section>
         </q-item>
       </q-list>
@@ -41,8 +34,4 @@ const { products, addToCart } = useCart();
   </q-page>
 </template>
 
-<style lang="scss" scoped>
-.product-card {
-  width: 400px;
-}
-</style>
+<style lang="scss" scoped></style>
