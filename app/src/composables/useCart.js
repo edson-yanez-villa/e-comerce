@@ -7,11 +7,15 @@ export const useCart = () => {
   //storeToRefs(storeCart);
 
   const addToCart = (product) => storeCart.addCart(product);
+  const remove = (id) => storeCart.remove(id);
 
   return {
     // computed
     products: computed(() => storeCart.getProducts),
+    carts: computed(() => storeCart.getCart),
+    counter: computed(() => storeCart.counter),
     // methods
     addToCart,
+    remove,
   };
 };

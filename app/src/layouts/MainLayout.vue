@@ -1,7 +1,6 @@
 <script setup>
-import { useCartStore } from "src/stores/cartStore";
-
-const storeCart = useCartStore();
+import { useCart } from "src/composables/useCart";
+const { counter } = useCart();
 </script>
 
 <template>
@@ -34,9 +33,7 @@ const storeCart = useCartStore();
             class="q-ml-md"
             to="/cart"
           >
-            <q-badge color="red" floating>{{
-              storeCart.getCart.length
-            }}</q-badge>
+            <q-badge color="red" floating>{{ counter }}</q-badge>
           </q-btn>
         </q-tab>
       </q-tabs>
