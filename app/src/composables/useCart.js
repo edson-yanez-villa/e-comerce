@@ -8,6 +8,7 @@ export const useCart = () => {
 
   const addToCart = (product) => storeCart.addCart(product);
   const remove = (id) => storeCart.remove(id);
+  const fetchProducts = () => storeCart.fetchProducts();
 
   return {
     // computed
@@ -17,5 +18,6 @@ export const useCart = () => {
     // methods
     addToCart,
     remove,
+    fetchProducts,
   };
 };
