@@ -1,6 +1,6 @@
 <script setup>
 import { useCart } from "src/composables/useCart";
-const { carts, remove } = useCart();
+const { carts, remove, addToCart } = useCart();
 </script>
 <template>
   <q-page class="">
@@ -18,7 +18,9 @@ const { carts, remove } = useCart();
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ product.name }}</q-item-label>
-            <q-item-label caption>{{ product.cost }}</q-item-label>
+            <q-item-label caption>{{
+              (product.cost * product.amount).toFixed(2)
+            }}</q-item-label>
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ product.amount }}</q-item-label>
@@ -35,7 +37,15 @@ const { carts, remove } = useCart();
             </q-btn>
           </q-item-section>
           <q-item-section side top>
-            <q-btn dense color="blue" round icon="add" class="q-ml-md"> </q-btn>
+            <q-btn
+              dense
+              color="blue"
+              round
+              icon="add"
+              class="q-ml-md"
+              @click="addToCart(product)"
+            >
+            </q-btn>
           </q-item-section>
         </q-item>
       </q-list>

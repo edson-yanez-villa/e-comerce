@@ -1,7 +1,11 @@
 <script setup>
+import { onMounted } from "vue";
 import { useCart } from "src/composables/useCart";
 
-const { products, addToCart } = useCart();
+const { products, addToCart, fetchProducts } = useCart();
+onMounted(() => {
+  fetchProducts();
+});
 </script>
 
 <template>

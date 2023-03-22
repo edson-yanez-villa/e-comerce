@@ -1,24 +1,9 @@
 import { defineStore } from "pinia";
+import { api } from "src/boot/axios";
 
 export const useCartStore = defineStore("cartStore", {
   state: () => ({
-    products: [
-      {
-        id: 123,
-        name: "test1",
-        cost: 15.6,
-      },
-      {
-        id: 124,
-        name: "test2",
-        cost: 1.9,
-      },
-      {
-        id: 125,
-        name: "test3",
-        cost: 35.8,
-      },
-    ],
+    products: [],
     cart: [],
   }),
   getters: {
@@ -47,6 +32,11 @@ export const useCartStore = defineStore("cartStore", {
           this.cart.splice(index, 1);
         }
       }
+    },
+    fetchProducts() {
+      api.get("products").then((response) => {
+        this.products = response.data;
+      });
     },
   },
 });
