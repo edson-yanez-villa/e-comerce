@@ -13,7 +13,10 @@ onMounted(() => {
     <q-card class="product-card">
       <q-list bordered padding>
         <q-item-label header>Productos</q-item-label>
-        <q-item v-for="product in products">
+        <q-item v-for="(product, index) in products" :key="product.id">
+          <q-item-section>
+            {{ index + 1 }}
+          </q-item-section>
           <q-item-section top avatar>
             <q-avatar
               color="primary"
