@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Cart;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -81,5 +83,24 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function addToCart(Request $request)
+    {
+        $validatorData = Validator::make($request->all(),
+            [
+                "id"=>"required",
+                "quantity"=>"required",
+                "userId"=>"required"
+            ]
+        );
+        $input = $request->all();
+        $cart = new Cart();
+        $cart->product_id = $input["id"];
+        $cart->quantity = $input["quantity"];
+        $cart->user_id = $input["userId"];
+
+        $cart->save();
+        return response()->json($cart->id, 200);
     }
 }
