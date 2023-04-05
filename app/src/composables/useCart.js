@@ -9,6 +9,7 @@ export const useCart = () => {
   const addToCart = (product) => storeCart.addCart(product);
   const remove = (id) => storeCart.remove(id);
   const fetchProducts = () => storeCart.fetchProducts();
+  const fetchCart = () => storeCart.fetchCart();
 
   return {
     // computed
@@ -19,5 +20,6 @@ export const useCart = () => {
     addToCart,
     remove,
     fetchProducts,
+    fetchCart,
   };
 };

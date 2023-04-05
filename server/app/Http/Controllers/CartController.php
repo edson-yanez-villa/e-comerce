@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Validator;
 
-class ProductController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-
-        $result = array(
-            "cart"=>Cart::where("user_id", 1)->with("product")->get(),
-            "products"=>Product::limit(100)->get()
-        );
-        return response()->json($result, 200);
+        return response()->json(Cart::where("user_id", 1)->with("product")->get(), 200);
     }
 
     /**
@@ -42,7 +36,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatorData = Validator::make($request->all(),
+            [
+                "id"=>"required",
+                "quantity"=>"required",
+                "userId"=>"required"
+            ]
+        );
+        $input = $request->all();
+        $cart = new Cart();
+        $cart->product_id = $input["id"];
+        $cart->quantity = $input["quantity"];
+        $cart->user_id = $input["userId"];
+        $cart->state = 1;
+        $cart->save();
+        return response()->json($cart->id, 200);
     }
 
     /**

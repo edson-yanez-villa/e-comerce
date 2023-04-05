@@ -4,24 +4,46 @@ import { api } from "src/boot/axios";
 export const useCartStore = defineStore("cartStore", {
   state: () => ({
     products: [],
-    cart: [],
+    cart: null,
   }),
   getters: {
     getProducts: (state) => state.products,
     getCart: (state) => state.cart,
-    counter: (state) =>
-      state.cart.reduce((sum, el) => Number(sum + el.amount), 0),
+    counter: (state) => {
+      if (state.cart == null) {
+        return 0;
+      }
+      return state.cart.reduce((sum, el) => Number(sum + el.quantity), 0);
+    },
   },
   actions: {
     addCart(product) {
-      const finderProduct = this.cart.find((el) => el.id == product.id);
-
+      const finderProduct = this.cart.find((el) => el.product_id == product.id);
+      let amount = 0;
       if (finderProduct == undefined) {
-        product.amount = 1;
-        this.cart.push(product);
+        amount = 1;
       } else {
-        finderProduct.amount += 1;
+        amount = finderProduct.quantity;
       }
+
+      api
+        .post("carts", {
+          id: product.id,
+          quantity: amount,
+          userId: 1,
+        })
+        .then((response) => {
+          if (amount == 1) {
+            this.cart.push({
+              id: response.data,
+              quantity: amount,
+              product_id: product.id,
+              product: product,
+            });
+          } else {
+            finderProduct.quantity += 1;
+          }
+        });
     },
     remove(id) {
       const index = this.cart.findIndex((el) => el.id == id);
@@ -35,7 +57,13 @@ export const useCartStore = defineStore("cartStore", {
     },
     fetchProducts() {
       api.get("products").then((response) => {
-        this.products = response.data;
+        this.cart = response.data.cart;
+        this.products = response.data.products;
+      });
+    },
+    fetchCart() {
+      api.get("carts").then((response) => {
+        this.cart = response.data;
       });
     },
   },

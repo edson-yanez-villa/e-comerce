@@ -1,6 +1,13 @@
 <script setup>
 import { useCart } from "src/composables/useCart";
-const { carts, remove, addToCart } = useCart();
+import { onMounted } from "vue";
+
+const { carts, remove, addToCart, fetchCart } = useCart();
+onMounted(() => {
+  if (carts == null) {
+    fetchCart();
+  }
+});
 </script>
 <template>
   <q-page class="">
@@ -17,13 +24,13 @@ const { carts, remove, addToCart } = useCart();
             />
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ product.name }}</q-item-label>
+            <q-item-label>{{ product.product.name }}</q-item-label>
             <q-item-label caption>{{
-              (product.cost * product.amount).toFixed(2)
+              (product.cost * product.quantity).toFixed(2)
             }}</q-item-label>
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ product.amount }}</q-item-label>
+            <q-item-label>{{ product.quantity }}</q-item-label>
           </q-item-section>
           <q-item-section side top>
             <q-btn
