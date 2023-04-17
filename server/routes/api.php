@@ -16,12 +16,26 @@ use App\Http\Controllers\CartController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::resources([
     'products' => ProductController::class,
     'carts' => CartController::class,
 ]);
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+
+
+Route::post('register', 'App\Http\Controllers\UserController@register');
+Route::post('login', 'App\Http\Controllers\UserController@authenticate');
+
+
+Route::group(['middleware' => ['jwt.verify']], function() {
+    Route::post('user','App\Http\Controllers\UserController@getAuthenticatedUser');
+    Route::get('users','App\Http\Controllers\UserController@getAllUsers');
+});
